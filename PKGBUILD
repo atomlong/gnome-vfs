@@ -12,12 +12,16 @@ makedepends=('pkg-config' 'intltool' 'gtk-doc' 'gnome-common')
 options=('!emptydirs')
 url="https://developer.gnome.org/gnome-vfs/"
 source=(https://download.gnome.org/sources/${pkgname}/2.24/gnome-vfs-${pkgver}.tar.bz2
+		config.guess
+        config.sub
         gnutls-config.patch
         gnutls-3.4.0.patch
         gcrypt-config.patch
         enable-deprecated.patch
         smbc_remove_unused_server.patch)
 sha256sums=('62de64b5b804eb04104ff98fcd6a8b7276d510a49fbd9c0feb568f8996444faa'
+			'7d1e3c79b86de601c3a0457855ab854dffd15163f53c91edac54a7be2e9c931b'
+			'0c6489c65150773a2a94eebaa794b079e74a403b50b48d5adb69fc6cd14f4810'
             '66c7cfb12995c0dd94a2caea95c7e3c55981993f05a79c585d60915ff131955d'
             '5fe5e2e1ad8d8d36deb2d38db621d5b8350aafe3876f722467465c3b3fa304d3'
             'c059e218f310da683778919d36e7862f7e763384805f6453d328fbaf507a8114'
@@ -37,6 +41,9 @@ prepare() {
   patch -Np1 -i ../smbc_remove_unused_server.patch
 
   sed -i -s 's|$(srcdir)/auto-test|auto-test|' test/Makefile.am
+
+  cp -vf ${srcdir}/config.guess	${srcdir}/${pkgname}-${pkgver}/
+  cp -vf ${srcdir}/config.sub	${srcdir}/${pkgname}-${pkgver}/
 }
 build() {
   cd ${pkgname}-${pkgver}
